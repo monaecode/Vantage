@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.db
+*.db-journal
+*.log.jsonl
+audit.log*
+reports/
+.DS_Store

@@ -1,0 +1,25 @@
+# scope.example.yaml — copy to scope.yaml, fill in YOUR targets and
+# authorization, then pass it to every scan. Vantage refuses to run
+# without a completed authorization block below.
+#
+# Only list targets you have WRITTEN permission to test.
+
+engagement: "Local lab assessment"
+
+targets:
+  # Localhost is the safe default for trying Vantage out.
+  - host: 127.0.0.1
+    ports: [22, 80, 443, 3000, 5000, 8000, 8080, 8443, 8888]
+  # Examples of other forms (leave commented until authorized):
+  # - host: 10.0.0.0/24
+  # - host: scanme.example.com
+
+exclusions:
+  # Hosts that are never touched, even if a wider range covers them.
+  # - host: 10.0.0.5
+  #   reason: "production database"
+
+authorization:
+  signed_by: "YOUR NAME"
+  signed_date: "2026-10-10"
+  statement: "I hold written authorization to assess the targets listed above."

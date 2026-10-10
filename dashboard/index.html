@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vantage</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="field" aria-hidden="true"></div>
+
+<!-- Floating toolbar: glass capsule, title, one prominent action -->
+<header class="toolbar" role="banner">
+  <div class="toolbar-title">
+    <span class="app-name">Vantage</span>
+    <span class="app-status" id="api-status">Checking API…</span>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn plain" id="theme-btn" type="button">Dark</button>
+    <button class="btn prominent" id="new-scan-btn" type="button">Run scan</button>
+  </div>
+</header>
+
+<main id="view-home" class="view">
+  <h1 class="large-title">Scans</h1>
+  <p class="lede">Authorized vulnerability assessments on this machine. Runs locally. Nothing leaves this Mac.</p>
+
+  <section aria-label="Severity summary">
+    <h2 class="section-title">Latest findings</h2>
+    <div class="summary-row" id="summary-row">
+      <div class="summary-card"><span class="badge red"><span class="dot"></span>Critical</span><span class="summary-count" id="count-critical">0</span></div>
+      <div class="summary-card"><span class="badge red"><span class="dot"></span>High</span><span class="summary-count" id="count-high">0</span></div>
+      <div class="summary-card"><span class="badge strong">Medium</span><span class="summary-count" id="count-medium">0</span></div>
+      <div class="summary-card"><span class="badge neutral">Low</span><span class="summary-count" id="count-low">0</span></div>
+      <div class="summary-card"><span class="badge neutral">Info</span><span class="summary-count" id="count-info">0</span></div>
+    </div>
+  </section>
+
+  <section aria-label="Scan history">
+    <h2 class="section-title">History</h2>
+    <div class="list" id="scan-list" role="list"></div>
+    <p class="list-empty" id="scan-empty" hidden>No scans yet. Run your first scan to see it here.</p>
+  </section>
+</main>
+
+<main id="view-detail" class="view" hidden>
+  <button class="btn plain back" id="back-btn" type="button">‹ Scans</button>
+  <h1 class="large-title" id="detail-target">–</h1>
+  <p class="lede" id="detail-meta">–</p>
+
+  <div class="seg" role="radiogroup" aria-label="Filter by severity" id="severity-filter">
+    <button role="radio" aria-checked="true" data-sev="all" class="seg-btn active" type="button">All</button>
+    <button role="radio" aria-checked="false" data-sev="high" class="seg-btn" type="button">High and above</button>
+    <button role="radio" aria-checked="false" data-sev="medium" class="seg-btn" type="button">Medium</button>
+    <button role="radio" aria-checked="false" data-sev="low" class="seg-btn" type="button">Low</button>
+    <button role="radio" aria-checked="false" data-sev="info" class="seg-btn" type="button">Info</button>
+  </div>
+
+  <div class="list" id="finding-list" role="list"></div>
+  <p class="list-empty" id="finding-empty" hidden>No findings at this severity.</p>
+</main>
+
+<main id="view-new" class="view" hidden>
+  <button class="btn plain back" id="back-btn-2" type="button">‹ Scans</button>
+  <h1 class="large-title">New scan</h1>
+  <p class="lede">Vantage only scans targets named in a signed scope file, and only with your explicit confirmation.</p>
+
+  <form id="scan-form" novalidate>
+    <div class="field-group">
+      <label class="field-label" for="target-input">Target</label>
+      <input class="textfield" id="target-input" type="text" placeholder="127.0.0.1"
+             autocomplete="off" spellcheck="false" aria-describedby="target-hint">
+      <p class="hint" id="target-hint">A hostname or IP address covered by your scope file.</p>
+      <p class="error" id="target-error" hidden></p>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="ports-input">Ports <span class="optional">(optional)</span></label>
+      <input class="textfield mono" id="ports-input" type="text" placeholder="22,80,443"
+             autocomplete="off" spellcheck="false">
+      <p class="hint">Leave blank to use the default port set.</p>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="scope-input">Scope file</label>
+      <input class="filefield" id="scope-input" type="file" accept=".yaml,.yml,.txt">
+      <p class="hint">A signed scope YAML naming this target. <span class="mono">scope.example.yaml</span> shows the format.</p>
+      <p class="error" id="scope-error" hidden></p>
+    </div>
+
+    <label class="consent">
+      <input type="checkbox" id="auth-check">
+      <span>I hold written authorization to assess this target.</span>
+    </label>
+    <p class="error" id="auth-error" hidden></p>
+
+    <button class="btn prominent lg" id="run-btn" type="submit">Run scan</button>
+    <p class="error" id="form-error" hidden></p>
+  </form>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
